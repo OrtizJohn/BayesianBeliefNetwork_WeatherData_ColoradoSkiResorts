@@ -1,7 +1,7 @@
 # BayesianBeliefNetwork_WeatherData_ColoradoSkiResorts
 
 
-References:
+References: <br>
 [1] Data API URL BUILDER. CoAgMET. (n.d.). Retrieved April 11, 2023, from
 https://coagmet.colostate.edu/data/url-builder
 
