@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-# from pycit import itest, citest
 
 
 # TODO: compute conditional independence from joint/marginal etc (lol maybe not)
@@ -16,7 +15,7 @@ def find_joint(df):
 
     jointpdf = np.zeros(shape=[2,2,2,2])
 
-    for i in range(length-1):
+    for i in range(length):
         jointpdf[df['H'][i]][df['L'][i]][df['P'][i]][df['S'][i]] += 1
     
     jointpdf = jointpdf/length

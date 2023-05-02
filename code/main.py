@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from readFiles import *
 from probability import *
+from nets import *
 
 def main():
 
@@ -14,11 +15,17 @@ def main():
     dfs = read_ski_resort_data(files)
     dfs = make_binary(dfs)
 
-    # for simplicity while figuring this out
-    df = dfs[0]
 
-    print(find_marginals(df))
-    print(find_joint(df))
+    #split train/test
+    train_dfs,test_dfs = split_dataframes(dfs,.8)
+    
+    # for simplicity while figuring this out
+    df = train_dfs[0]
+
+    marg = find_marginals(df)
+    joint = find_joint(df)
+    bayes(joint, marg, df)
+
 
 
 

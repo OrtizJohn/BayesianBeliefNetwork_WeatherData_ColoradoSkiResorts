@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from typing import List, Tuple
 
 
 # files = ["../data/aspen.csv", "../data/steamboat.csv", "../data/vail.csv"]
@@ -33,6 +34,32 @@ def read_ski_resort_data(files_list):
         dfs.append(df)
     return dfs
 
+def split_dataframes(dfs: List[pd.DataFrame], R: float) -> Tuple[List[pd.DataFrame], List[pd.DataFrame]]:
+    """
+    Splits each dataframe in an array of dataframes into train and test dataframes based on a given percentage R.
+    Returns two lists of dataframes, one for the training data and another for the testing data.
+    """
+    if not isinstance(dfs, list) or not all(isinstance(df, pd.DataFrame) for df in dfs):
+        raise TypeError("Input must be an array of pandas dataframes.")
+    if not isinstance(R, float) or R <= 0 or R >= 1:
+        raise ValueError("R must be a float between 0 and 1 exclusive.")
+        
+    train_dfs = []
+    test_dfs = []
+    for df in dfs:
+        num_rows = df.shape[0]
+        num_train = round(num_rows * R)
+        num_test = num_rows - num_train
+        
+        train_df = df.head(num_train)
+        test_df = df.tail(num_test)
+        
+        train_dfs.append(train_df)
+        test_dfs.append(test_df)
+        
+    return train_dfs, test_dfs
+
+
 def make_binary(dfs):
     #dfs_copy = dfs.copy()
     for df in dfs:
@@ -44,8 +71,8 @@ def make_binary(dfs):
 
         # TODO: check the values we are comparing against here (they're mildly a guess so this will need refining)
         df['D'] = pd.to_datetime(date)
-        df['H'] = (high < 50).astype(int)
-        df['L'] = (low < 32).astype(int)
+        df['H'] = (high > np.mean(high)).astype(int)
+        df['L'] = (low < np.mean(low)).astype(int)
         # do we want this? complicates things
         # df['tempDiff'] = ((high - low) > 40).astype(int)
         df['P'] = (precip > 0).astype(int)
