@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-files = ["../data/aspen.csv", "../data/steamboat.csv", "../data/vail.csv"]
+# files = ["../data/aspen.csv", "../data/steamboat.csv", "../data/vail.csv"]
 
 # brechenridge does not work at all, missing too much data
 # "../data/breckenridge.csv",
@@ -28,11 +28,13 @@ def read_ski_resort_data(files_list):
 
         indexCleaned = df[ (df['date'] == 'T') | (df['maxTemp'] == 'T') | (df['minTemp'] == 'T') | (df['precipitation'] == 'T') | (df['snowFall'] == 'T')].index
         df.drop(indexCleaned , inplace=True)
+        df = df.reset_index()
 
         dfs.append(df)
     return dfs
 
-def make_boolean(dfs):
+def make_binary(dfs):
+    #dfs_copy = dfs.copy()
     for df in dfs:
         date = df["date"]
         high = df["maxTemp"].astype(float)
@@ -41,14 +43,15 @@ def make_boolean(dfs):
         snow = df["snowFall"].astype(float)
 
         # TODO: check the values we are comparing against here (they're mildly a guess so this will need refining)
-        df['date'] = pd.to_datetime(date)
-        df['high'] = (high < 50).astype(int)
-        df['low'] = (low < 32).astype(int)
-        df['tempDiff'] = ((high - low) > 40).astype(int)
-        df['precip'] = (precip > 0).astype(int)
-        df['snow'] = (snow > 0).astype(int)
+        df['D'] = pd.to_datetime(date)
+        df['H'] = (high < 50).astype(int)
+        df['L'] = (low < 32).astype(int)
+        # do we want this? complicates things
+        # df['tempDiff'] = ((high - low) > 40).astype(int)
+        df['P'] = (precip > 0).astype(int)
+        df['S'] = (snow > 0).astype(int)
 
-        df.drop(columns=["maxTemp","minTemp", "precipitation","snowFall"], inplace=True)
+        df.drop(columns=["date", "maxTemp","minTemp", "precipitation","snowFall"], inplace=True)
 
         # TODO: add boolean for if it rained/snowed yesterday (might not work since not ever date is included)
         # precip_y = ??
@@ -58,9 +61,9 @@ def make_boolean(dfs):
 
 
 
-dfs = read_ski_resort_data(files)
-print(dfs[0].head(5))
+# dfs = read_ski_resort_data(files)
+# print(dfs[0].head(5))
 
-dfs = make_boolean(dfs)
-print(dfs[0].head(5))
-print(dfs[0].dtypes)
+# dfs = make_binary(dfs)
+# print(dfs[0].head(5))
+# print(dfs[0].dtypes)
