@@ -32,6 +32,9 @@ def read_ski_resort_data(files_list):
         df = df.reset_index()
 
         dfs.append(df)
+
+        if file == "../data/aspen.csv":
+            df[["maxTemp","minTemp", "precipitation","snowFall"]].to_csv("../data/test.csv")
     return dfs
 
 def split_dataframes(dfs: List[pd.DataFrame], R: float) -> Tuple[List[pd.DataFrame], List[pd.DataFrame]]:
@@ -59,6 +62,22 @@ def split_dataframes(dfs: List[pd.DataFrame], R: float) -> Tuple[List[pd.DataFra
         
     return train_dfs, test_dfs
 
+def alterDfs(dfs):
+    for df in dfs:
+        date = df["date"]
+        high = df["maxTemp"].astype(float)
+        low = df["minTemp"].astype(float)
+        precip = df["precipitation"].astype(float)
+        snow = df["snowFall"].astype(float)
+
+        df['D'] = pd.to_datetime(date)
+        df['H'] = high.astype(float)
+        df['L'] = low.astype(float)
+        df['P'] = precip.astype(float)
+        df['S'] = snow.astype(float)
+
+        df.drop(columns=["date", "maxTemp","minTemp", "precipitation","snowFall"], inplace=True)
+    return dfs
 
 def make_binary(dfs):
     #dfs_copy = dfs.copy()

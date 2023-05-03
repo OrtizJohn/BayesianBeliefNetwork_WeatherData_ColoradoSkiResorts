@@ -62,3 +62,28 @@ def bayes(joint, marginal, df):
 
 def markov():
     pass
+
+
+from hmmlearn import hmm
+def make_model(train, test):
+    columns = ['H', 'L', 'P']#, 'S'
+    X_train = train[columns].to_numpy()
+    X_test = test[columns].to_numpy()
+
+    # model = hmm.MultinomialHMM()
+    model = hmm.GaussianHMM(n_components = 2, covariance_type = "full", n_iter = 500, random_state = 42, init_params="mcs")
+    model.fit(X_train)
+    Z = model.predict(X_test)
+    print(Z)
+    print(len(Z), X_test.shape)
+    # print(test['D'])
+    return Z
+
+import tensorflow as tf
+from tensorflow import keras
+from keras import layers
+# import tensorflow_datasets as tfds
+import tensorflow_probability as tfp
+
+def try_again():
+    pass
