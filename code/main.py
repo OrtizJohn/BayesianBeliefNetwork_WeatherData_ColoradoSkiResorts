@@ -35,7 +35,8 @@ def main():
     # #split train/test
     train_dfs,test_dfs = split_dataframes(dfs,.8)
     preds = []
-    maes = []
+    MAEs = []
+    RMSEs = []
 
     for i in range(len(files)):
     # for i in range(1):
@@ -50,19 +51,25 @@ def main():
 
         model = BNN()
         model.train(xTrain,yTrain)
-        predict, mae = model.predict(xTest, yTest)
+        predict, MAE, RMSE = model.predict(xTest, yTest)
         # print(min(predict), min(yTest))
         # print(mode(predict))
 
 
-        model.plotPredictions(predict, yTest, test_dates, files[i], type=2, save=True)
+        model.plotPredictions(predict, yTest, test_dates, files[i], MAE, RMSE, type=2, save=True)
+
         preds.append(predict)
-        maes.append(mae)
+        MAEs.append(MAE)
+        RMSEs.append(RMSE)
 
 
         maeFile = open(f"../data/errs/{files[i][8:-4]}_mae.txt", "a")
-        maeFile.write(f"{mae}\n")
+        maeFile.write(f"{MAE}\n")
         maeFile.close()
+
+        rmseFile = open(f"../data/errs/{files[i][8:-4]}_rmse.txt", "a")
+        rmseFile.write(f"{RMSE}\n")
+        rmseFile.close()
 
 
     # TODO: probably remove the thinge below here

@@ -106,45 +106,54 @@ class BNN():
 
         MSE = np.square(np.subtract(yTest,predictions)).mean() 
         RMSE = math.sqrt(MSE)
-        print("MSE:", MSE)
         print("RMSE:", RMSE)
 
-        baseline = {4200: np.array([MAE < 0.5239999999999999, MSE < 2.403885714285714, RMSE < 1.5504469401710315])}
+        # 0s RMSE: 1.5504469401710315
+        baseline = {4200: np.array([MAE < 0.5239999999999999, RMSE < 1.5220674820747655])}
         if baseline[self.seed].any():
             print("WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN")
             print(baseline[self.seed])
 
-        return predictions,MAE
+        return predictions,MAE,RMSE
     
-    def plotPredictions(self,yPred,yTest,dates,file,type=2,save=False):
+    def plotPredictions(self,yPred,yTest,dates,file,MAE,RMSE,type=2,save=False):
         t = time.localtime()
         current_time = time.strftime("%Hh_%Mm_%Ss", t)
+
+        yMax = max([max(yTest), max(yPred)])
 
         if type != 1:
             # xRange = np.arange(0,yTest.shape[0])
             plt.scatter(dates, yTest.flatten(), color='blue', s=5, label='Truth')
             plt.scatter(dates, yPred, color='red', s=5, label='Prediction')
+
+            plt.text(list(dates)[0], yMax-0.5, f"Errors\nMAE: {round(MAE, 3)}\nRMSE: {round(RMSE, 3)}", fontsize=7)
             plt.xlabel("Timeline")
             plt.ylabel("Snowfall")
             plt.title(f"{file[8:-4]} Predicted vs Actual Snowfall")
             plt.legend()
-            plt.show()
+
             if save:
                 plt.savefig(f"../figures/snow/{file[8:-4]}_time_{current_time}.png")
+            else:
+                plt.show()
 
         if type != 0:
-            yMax = max([max(yTest), max(yPred)])
             truth = np.arange(0,yMax+1)
             
             plt.plot(truth, truth, color='blue', label='Equal')
             plt.scatter(yTest, yPred, color='red', s=5, label='Comparison')
+
+            plt.text(0, yMax-1.7, f"Errors\nMAE: {round(MAE, 3)}\nRMSE: {round(RMSE, 3)}", fontsize=7)
             plt.xlabel("Truth Snowfall")
             plt.ylabel("Prediction Snowfall")
             plt.title(f"{file[8:-4]} Predicted vs Actual Proximity")
             plt.legend()
-            plt.show()
+
             if save:
                 plt.savefig(f"../figures/comp/{file[8:-4]}_direct_{current_time}.png")
+            else:
+                plt.show()
 
 
 # Define the log likelihood function
