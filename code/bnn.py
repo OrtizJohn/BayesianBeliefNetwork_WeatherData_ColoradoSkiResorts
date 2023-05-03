@@ -21,7 +21,7 @@ from keras.callbacks import EarlyStopping
 # Define the Bayesian neural network model
 class BNN():
     def __init__(self) :
-        self.model = tf.keras.Sequential([tf.keras.layers.Dense(32, activation='relu'),tfp.layers.DenseFlipout(1)])
+        self.model = tf.keras.Sequential([tf.keras.layers.Dense(32, activation='relu'),tfp.layers.DenseFlipout(1,activation='linear')])#,tfp.layers.DenseFlipout(1)
         #self.create()
         self.compile()
 
@@ -34,17 +34,29 @@ class BNN():
     def train(self,xTrain,yTrain):
         self.model.fit(xTrain, yTrain, epochs=1000, validation_split=.2, callbacks = EarlyStopping(monitor="loss",patience=2) )
         
+    def round_small_values(self,predictions):
+        new_predictions = []
+        for pred in predictions:
+            if pred[0] < 0.06:
+                new_predictions.append(0)
+            else:
+                new_predictions.append(pred[0])
+        return new_predictions
+
     def predict(self,xTest,yTest):
-        predictions=  self.model.predict(xTest)
+        predictions = self.model.predict(xTest)
+        predictions = np.abs(predictions)
+        predictions = self.round_small_values(predictions)
         mae = np.mean(np.abs(predictions - yTest))
         print("Mean absolute error:", mae)
         return predictions,mae
+    
     def plotPredictions(self,yPred,yTest):
         xRange = np.arange(0,yTest.shape[0])
         # print(yTest.shape,yPred.shape, len(xRange))
         # print(yTest.flatten().shape, yPred.flatten().shape, xRange.shape)
         plt.scatter(xRange, yTest.flatten(), color = 'blue',label='Truth')
-        plt.scatter(xRange, yPred.flatten(), color ='red',label='Pred')
+        plt.scatter(xRange, yPred, color ='red',label='Pred')
         plt.legend()
         plt.show()
 
