@@ -31,9 +31,9 @@ class BNN():
         tf.keras.utils.set_random_seed(seed)
 
         self.model = tf.keras.Sequential([
-                                          tf.keras.layers.Dense(16, activation="relu"),
+                                        #   tf.keras.layers.Dense(16, activation="relu"),
                                         #   tf.keras.layers.Dense(16, activation="sigmoid"),
-                                        #   tf.keras.layers.Dense(16, activation="tanh"),
+                                          tf.keras.layers.Dense(16, activation="tanh"),
                                         #   tf.keras.layers.Dense(16, activation="linear"),
                                         #   tf.keras.layers.Dense(16),
                                           

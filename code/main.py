@@ -56,6 +56,7 @@ def main():
         # print(mode(predict))
 
 
+        # model.plotPredictions(predict, yTest, test_dates, files[i], MAE, RMSE, type=0, save=False)
         model.plotPredictions(predict, yTest, test_dates, files[i], MAE, RMSE, type=2, save=True)
 
         preds.append(predict)
