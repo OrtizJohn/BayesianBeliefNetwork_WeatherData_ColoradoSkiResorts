@@ -10,18 +10,23 @@ from bnn import BNN
 
 def main():
 
-    files = ["../data/aspen.csv", "../data/steamboat.csv", "../data/vail.csv"]
+    # files used
+    files = ["../data/Aspen_1SW_5.csv", "../data/Aspen_full.csv"]#, "../data/aspen.csv", "../data/steamboat.csv", "../data/vail.csv"]
     # brechenridge does not work at all, missing too much data
     # "../data/breckenridge.csv",
 
+    # read data
     dfs = read_ski_resort_data(files)
 
+
+    # Some checks
     # plt.hist(dfs[0]['precipitation'])
     # plt.show()
 
     # plt.hist(dfs[0]['snowFall'])
     # plt.show()
 
+    # change with attempting binary data
     #dfs = make_binary(dfs)
     dfs = alterDfs(dfs)
 
@@ -30,7 +35,8 @@ def main():
     preds = []
     maes = []
 
-    for i in range(len(files)):
+    # for i in range(len(files)):
+    for i in range(1):
     
         xTrain = train_dfs[i][['H', 'L', 'P']].to_numpy()
         yTrain = train_dfs[i]['S'].to_numpy()
@@ -44,11 +50,13 @@ def main():
         print(min(predict), min(yTest))
         print(mode(predict))
 
-        # print(predict)
 
-        model.plotPredictions(predict, yTest)
+        model.plotPredictions(predict, yTest, type=2)
         preds.append(predict)
         maes.append(mae)
+
+
+    # TODO: probably remove the thinge below here
     # marg = find_marginals(df)
     # joint = find_joint(df)
     # # bayes(joint, marg, df)
@@ -57,6 +65,8 @@ def main():
 
     # print(np.sum(pred == (test['S'] > 0))/len(pred))
 
+    # print(train_dfs[1]['D'])
+    # print(test_dfs[1]['D'])
 
 
 

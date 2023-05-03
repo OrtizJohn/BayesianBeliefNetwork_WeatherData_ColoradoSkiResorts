@@ -15,7 +15,7 @@ def read_ski_resort_data(files_list):
     dfs = []
     for file in files_list:
         df = pd.read_csv(file, encoding='utf-8',delimiter="," ,header=0,names=["date","maxTemp","minTemp", "precipitation","snowFall"])
-
+        a = df.shape[0]
         # my own sanity, remove this later
         # print(file)
         # print(df['maxTemp'].unique())
@@ -31,10 +31,13 @@ def read_ski_resort_data(files_list):
         df.drop(indexCleaned , inplace=True)
         df = df.reset_index()
 
+        b = df.shape[0]
+        print(file, "- Initial:", a, "- Trimmed:", b, "- Removed:", a-b)
+
         dfs.append(df)
 
-        if file == "../data/aspen.csv":
-            df[["maxTemp","minTemp", "precipitation","snowFall"]].to_csv("../data/test.csv")
+        # if file == "../data/aspen.csv":
+        #     df[["maxTemp","minTemp", "precipitation","snowFall"]].to_csv("../data/test.csv")
     return dfs
 
 def split_dataframes(dfs: List[pd.DataFrame], R: float) -> Tuple[List[pd.DataFrame], List[pd.DataFrame]]:
