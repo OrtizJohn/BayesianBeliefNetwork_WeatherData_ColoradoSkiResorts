@@ -11,7 +11,9 @@ from bnn import BNN
 def main():
 
     # files used
-    files = ["../data/Aspen_1SW_5.csv", "../data/Aspen_full.csv"]#, "../data/aspen.csv", "../data/steamboat.csv", "../data/vail.csv"]
+    files = ["../data/Aspen_1SW_5.csv"]#, "../data/Aspen_full.csv"]
+    #, "../data/aspen.csv", "../data/steamboat.csv", "../data/vail.csv"]
+
     # brechenridge does not work at all, missing too much data
     # "../data/breckenridge.csv",
 
@@ -19,7 +21,7 @@ def main():
     dfs = read_ski_resort_data(files)
 
 
-    # Some checks
+    # Some checks, remove?
     # plt.hist(dfs[0]['precipitation'])
     # plt.show()
 
@@ -35,25 +37,32 @@ def main():
     preds = []
     maes = []
 
-    # for i in range(len(files)):
-    for i in range(1):
+    for i in range(len(files)):
+    # for i in range(1):
     
         xTrain = train_dfs[i][['H', 'L', 'P']].to_numpy()
         yTrain = train_dfs[i]['S'].to_numpy()
+        train_dates = train_dfs[i]['D']
         xTest = test_dfs[i][['H', 'L', 'P']].to_numpy()
         yTest = test_dfs[i]['S'].to_numpy()
+        test_dates = test_dfs[i]['D']
 
 
         model = BNN()
         model.train(xTrain,yTrain)
         predict, mae = model.predict(xTest, yTest)
-        print(min(predict), min(yTest))
-        print(mode(predict))
+        # print(min(predict), min(yTest))
+        # print(mode(predict))
 
 
-        model.plotPredictions(predict, yTest, type=2)
+        model.plotPredictions(predict, yTest, test_dates, files[i], type=2, save=True)
         preds.append(predict)
         maes.append(mae)
+
+
+        maeFile = open(f"../data/errs/{files[i][8:-4]}_mae.txt", "a")
+        maeFile.write(f"{mae}\n")
+        maeFile.close()
 
 
     # TODO: probably remove the thinge below here
