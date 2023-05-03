@@ -26,7 +26,6 @@ def main():
     # Some checks, remove?
     # plt.hist(dfs[0]['precipitation'])
     # plt.show()
-
     # plt.hist(dfs[0]['snowFall'])
     # plt.show()
 
@@ -68,12 +67,7 @@ def main():
         test_dates = test_dfs[i]['D']
 
         predict, MAE, RMSE = model.predict(xTest, yTest)
-        # print(min(predict), min(yTest))
-        # print(mode(predict))
 
-
-        model.plotPredictions(predict, yTest, test_dates, files[i], MAE, RMSE, type=2, save=False)
-        # model.plotPredictions(predict, yTest, test_dates, files[i], MAE, RMSE, type=2, save=True)
 
         preds.append(predict)
         MAEs.append(MAE)
@@ -90,13 +84,18 @@ def main():
 
         # test on training set to compare
         t_predict, t_MAE, t_RMSE = model.predict(xTrain, yTrain)
-
-        model.plotPredictions(t_predict, yTrain, train_dates, files[i], t_MAE, t_RMSE, type=2, save=False)
-        # model.plotPredictions(t_predict, yTrain, train_dates, files[i], t_MAE, t_RMSE, type=2, save=True)
-
         t_preds.append(t_predict)
         t_MAEs.append(t_MAE)
         t_RMSEs.append(t_RMSE)
+
+        # Just view
+        # model.plotPredictions(predict, yTest, test_dates, files[i], MAE, RMSE, type=2, save=False)
+        # model.plotPredictions(t_predict, yTrain, train_dates, files[i], t_MAE, t_RMSE, type=2, save=False)
+
+        # Save plots
+        model.plotPredictions(predict, yTest, test_dates, files[i], MAE, RMSE, type=2, save=True)
+        model.plotPredictions(t_predict, yTrain, train_dates, files[i], t_MAE, t_RMSE, type=2, save=True)
+
 
 
     for i in range(len(files)):
