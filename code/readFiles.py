@@ -76,6 +76,7 @@ def alterDfs(dfs):
         df['D'] = pd.to_datetime(date)
         df['H'] = high.astype(float)
         df['L'] = low.astype(float)
+        df['T'] = high - low
         df['P'] = precip.astype(float)
         df['S'] = snow.astype(float)
 

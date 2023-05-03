@@ -30,59 +30,120 @@ class BNN():
         self.seed = seed
         tf.keras.utils.set_random_seed(seed)
 
+        # Goodish (lr = 0.05, p = 3) .................. NVM
+        # self.model = tf.keras.Sequential([
+        #                                   tf.keras.layers.Dense(64, activation="tanh"),  
+        #                                   tf.keras.layers.Dropout(0.2),
+        #                                   tfp.layers.DenseFlipout(32, activation="tanh"),
+        #                                   tf.keras.layers.Dense(1, activation="relu")
+        #                                 ])
+
+        # Goodish (lr = 0.05, p = 4)
         self.model = tf.keras.Sequential([
-                                        #   tf.keras.layers.Dense(16, activation="relu"),
-                                        #   tf.keras.layers.Dense(16, activation="sigmoid"),
-                                          tf.keras.layers.Dense(64, activation="tanh"),
-                                        #   tf.keras.layers.Dense(16, activation="linear"),
-                                        #   tf.keras.layers.Dense(16),
-                                          
-                                          tf.keras.layers.Dropout(0.2),
-
-                                        #   tfp.layers.DenseFlipout(8, activation="relu"), # almost universally bad
-                                        #   tfp.layers.DenseFlipout(8, activation="sigmoid"),
-                                        #   tfp.layers.DenseFlipout(8, activation="tanh"),
-                                        #   tfp.layers.DenseFlipout(8, activation="linear"),
-                                        #   tfp.layers.DenseFlipout(8),
-
-                                        #   tf.keras.layers.Dropout(0.2),
-
-                                        #   tf.keras.layers.Dense(8, activation="relu"),
-                                        #   tf.keras.layers.Dense(8, activation="sigmoid"),
-                                        #   tf.keras.layers.Dense(8, activation="tanh"),
-                                        #   tf.keras.layers.Dense(8, activation="linear"),
-                                        #   tf.keras.layers.Dense(8),
-
-                                        #   tf.keras.layers.Dropout(0.1),
-
-                                        #   tfp.layers.DenseFlipout(2, activation="sigmoid"),
-
-                                        #   tf.keras.layers.Dropout(0.1),
-
-                                        #   tfp.layers.DenseFlipout(8, activation="relu"),
-                                        #   tfp.layers.DenseFlipout(8, activation="sigmoid"),
-                                          tfp.layers.DenseFlipout(32, activation="tanh"),
-                                        #   tfp.layers.DenseFlipout(8, activation="linear"),
-                                        #   tfp.layers.DenseFlipout(8),
-
-                                          tf.keras.layers.Dense(1, activation="relu")
-                                        #   tf.keras.layers.Dense(1, activation="sigmoid")
-                                        #   tf.keras.layers.Dense(1, activation="tanh")
-                                        #   tf.keras.layers.Dense(1, activation="linear")
-                                        #   tf.keras.layers.Dense(1)
+                                          tf.keras.layers.Dense(128, activation="tanh"),
+                                          tf.keras.layers.Dropout(0.4),
+                                          tfp.layers.DenseFlipout(64, activation="sigmoid"),
+                                          tf.keras.layers.Dense(32, activation="tanh"),
+                                          tfp.layers.DenseFlipout(16, activation="sigmoid"),
+                                          tf.keras.layers.Dense(4, activation="tanh"),
+                                          tfp.layers.DenseFlipout(1, activation="relu")
                                         ])
-        #,tfp.layers.DenseFlipout(1)
+
+        # Testing
+        # self.model = tf.keras.Sequential([
+        #                                   tf.keras.layers.Dense(64, activation="tanh"),  
+        #                                   tf.keras.layers.Dropout(0.1),
+        #                                   tfp.layers.DenseFlipout(32, activation="sigmoid"),
+        #                                   tf.keras.layers.Dense(4, activation="tanh"),
+        #                                   tfp.layers.DenseFlipout(1, activation="relu"),
+        #                                 ])
+
+        # Testing
+        # self.model = tf.keras.Sequential([
+        #                                   tf.keras.layers.Dense(16, activation="relu"),
+        #                                   tf.keras.layers.Dense(128,  kernel_initializer='lecun_normal', activation="selu"),
+        #                                   tf.keras.layers.Dense(16, activation="sigmoid"),
+        #                                   tf.keras.layers.Dense(128, activation="tanh"),
+        #                                   tf.keras.layers.Dense(16, activation="linear"),
+                                          
+        #                                   tf.keras.layers.AlphaDropout(0.4),
+        #                                   tf.keras.layers.Dropout(0.4),
+
+        #                                   tfp.layers.DenseFlipout(16, activation="relu"), # almost universally bad
+        #                                   tfp.layers.DenseFlipout(64, activation="hard_sigmoid"),
+        #                                   tfp.layers.DenseFlipout(64, activation="sigmoid"),
+        #                                   tfp.layers.DenseFlipout(64, activation="tanh"),
+        #                                   tfp.layers.DenseFlipout(16, activation="linear"),
+
+        #                                   tf.keras.layers.Dropout(0.1),
+
+        #                                   tf.keras.layers.Dense(8, activation="relu"),
+        #                                   tf.keras.layers.Dense(16,  kernel_initializer='lecun_normal', activation="selu"),
+        #                                   tf.keras.layers.Dense(8, activation="sigmoid"),
+        #                                   tf.keras.layers.Dense(32, activation="tanh"),
+        #                                   tf.keras.layers.Dense(8, activation="linear"),
+
+        #                                   tf.keras.layers.Dropout(0.1),
+
+        #                                   tfp.layers.DenseFlipout(8, activation="relu"),
+        #                                   tfp.layers.DenseFlipout(16, activation="sigmoid"),
+        #                                   tfp.layers.DenseFlipout(8, activation="tanh"),
+        #                                   tfp.layers.DenseFlipout(8, activation="linear"),
+
+        #                                   tf.keras.layers.Dropout(0.05),
+
+        #                                   tf.keras.layers.Dense(16, activation="tanh"),
+
+        #                                   tfp.layers.DenseFlipout(4, activation="relu"),
+        #                                   tfp.layers.DenseFlipout(4, activation="sigmoid"),
+        #                                   tfp.layers.DenseFlipout(4, activation="tanh"),
+        #                                   tfp.layers.DenseFlipout(4, activation="linear"),
+
+        #                                   tf.keras.layers.Dense(4, activation="relu"),
+        #                                   tf.keras.layers.Dense(4, activation="sigmoid"),
+        #                                   tf.keras.layers.Dense(4, activation="tanh"),
+        #                                   tf.keras.layers.Dense(4, activation="linear"),
+
+        #                                   tf.keras.layers.Dense(2, activation="relu"), # no
+        #                                   tf.keras.layers.Dense(2, activation="sigmoid"), # no
+        #                                   tf.keras.layers.Dense(2, activation="tanh"), 
+        #                                   tf.keras.layers.Dense(2, activation="linear"),
+
+        #                                   tfp.layers.DenseFlipout(2, activation="relu"),
+        #                                   tfp.layers.DenseFlipout(2, activation="sigmoid"),
+        #                                   tfp.layers.DenseFlipout(2, activation="tanh"),
+        #                                   tfp.layers.DenseFlipout(2, activation="linear"),
+
+        #                                   tfp.layers.DenseFlipout(1, activation="relu")
+        #                                   tf.keras.layers.Dense(1, activation="relu")
+        #                                 ])
+                
         #self.create(),tf.keras.layers.Dropout(.01)
         self.compile()
+
+# w/diff 0.5597818623951503 1.5702203128621093
+# nodiff 0.5430582761764526 1.5606952530439924
+
+# w/diff 0.5719637117385864 1.5837331392033362
+# nodiff 0.5420509801592146 1.5597815189905546
+
+# w/diff 0.558081732068743 1.5740603299039162
+# nodiff 0.5322584506443568 1.553610851174374
+
+# w/diff 0.5409066614423479 1.544382702575833
+# nodiff 0.5320382118225098 1.542554944283372
+
 
     # def create(self):
     #     self.model = 
         
     def compile(self):
         self.model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.05), loss=neg_log_likelihood)
+        # loss = tf.keras.losses.MeanAbsoluteError()
+        # self.model.compile(optimizer=tf.optimizers.Adam(learning_rate=0.06), loss=loss)
 
     def train(self,xTrain,yTrain):
-        self.model.fit(xTrain, yTrain, epochs=1000, validation_split=.2, callbacks = EarlyStopping(monitor="loss",patience=3) )
+        self.model.fit(xTrain, yTrain, epochs=400, validation_split=.2, callbacks = EarlyStopping(monitor="loss",patience=4))
         
     def round_small_values(self,predictions):
         new_predictions = predictions.flatten() # []
@@ -108,11 +169,11 @@ class BNN():
         RMSE = math.sqrt(MSE)
         print("RMSE:", RMSE)
 
-        # 0s RMSE: 1.5504469401710315
-        baseline = {4200: np.array([MAE < 0.5239999999999999, RMSE < 1.5220674820747655])}
-        if baseline[self.seed].any():
-            print("WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN WIN")
-            print(baseline[self.seed])
+        # # 0s RMSE: 1.5504469401710315
+        # if RMSE < 1.5504469401710315:
+        #     print("RMSE improve from 0s: 1.5504")
+        # baseline = {4200: np.array([MAE < 0.5239999999999999, RMSE < 1.5220674820747655])}
+        # print(baseline[self.seed])
 
         return predictions,MAE,RMSE
     
@@ -124,8 +185,8 @@ class BNN():
 
         if type != 1:
             # xRange = np.arange(0,yTest.shape[0])
-            plt.scatter(dates, yTest.flatten(), color='blue', s=5, label='Truth')
-            plt.scatter(dates, yPred, color='red', s=5, label='Prediction')
+            plt.scatter(dates, yTest.flatten(), color='blue', edgecolors=None, s=40, label='Truth')
+            plt.scatter(dates, yPred, color='red', alpha=0.3, edgecolors=None, s=20, label='Prediction')
 
             plt.text(list(dates)[0], yMax-0.5, f"Errors\nMAE: {round(MAE, 3)}\nRMSE: {round(RMSE, 3)}", fontsize=7)
             plt.xlabel("Timeline")
@@ -135,8 +196,7 @@ class BNN():
 
             if save:
                 plt.savefig(f"../figures/snow/{file[8:-4]}_time_{current_time}.png")
-            else:
-                plt.show()
+            plt.show()
 
         if type != 0:
             truth = np.arange(0,yMax+1)
@@ -152,8 +212,7 @@ class BNN():
 
             if save:
                 plt.savefig(f"../figures/comp/{file[8:-4]}_direct_{current_time}.png")
-            else:
-                plt.show()
+            plt.show()
 
 
 # Define the log likelihood function
