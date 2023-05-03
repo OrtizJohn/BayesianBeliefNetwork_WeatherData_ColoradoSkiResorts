@@ -33,11 +33,11 @@ class BNN():
         self.model = tf.keras.Sequential([
                                         #   tf.keras.layers.Dense(16, activation="relu"),
                                         #   tf.keras.layers.Dense(16, activation="sigmoid"),
-                                          tf.keras.layers.Dense(16, activation="tanh"),
+                                          tf.keras.layers.Dense(64, activation="tanh"),
                                         #   tf.keras.layers.Dense(16, activation="linear"),
                                         #   tf.keras.layers.Dense(16),
                                           
-                                        #   tf.keras.layers.Dropout(0.4),
+                                          tf.keras.layers.Dropout(0.2),
 
                                         #   tfp.layers.DenseFlipout(8, activation="relu"), # almost universally bad
                                         #   tfp.layers.DenseFlipout(8, activation="sigmoid"),
@@ -61,7 +61,7 @@ class BNN():
 
                                         #   tfp.layers.DenseFlipout(8, activation="relu"),
                                         #   tfp.layers.DenseFlipout(8, activation="sigmoid"),
-                                          tfp.layers.DenseFlipout(8, activation="tanh"),
+                                          tfp.layers.DenseFlipout(32, activation="tanh"),
                                         #   tfp.layers.DenseFlipout(8, activation="linear"),
                                         #   tfp.layers.DenseFlipout(8),
 
